@@ -1,0 +1,10 @@
+[package]
+name = "rmk_canvas"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+dioxus = "0.3"
+dioxus-web = "0.3"
+kurbo = "0.9.4"

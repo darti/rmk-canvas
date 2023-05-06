@@ -1,10 +1,8 @@
-[package]
-name = "rmk_canvas"
-version = "0.0.1"
+[workspace]
+members = ["rmk_canvas", "rmk_format"]
+
+
+[workspace.package]
 edition = "2021"
-
-
-[dependencies]
-anyhow = "1"
-dioxus = "0.3"
-dioxus-web = "0.3"
+version = "0.0.1"
+authors = ["Matthieu Dartiguenave <matthieu@dartiguenave.me>"]
