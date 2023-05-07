@@ -1,14 +1,26 @@
-use crate::format::NotebookBuilderError;
+use crate::format::{LayerBuilderError, NotebookBuilderError};
 use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum RmkFormatError {
-    #[error("build error")]
-    BuildError(#[from] NotebookBuilderError),
+    #[error("unsupported version: {0}")]
+    UnsupportedVersion(usize),
+
+    #[error("notebook build error")]
+    NotebookBuildError(#[from] NotebookBuilderError),
+
+    #[error("layer build error")]
+    LayerBuildError(#[from] LayerBuilderError),
 
     #[error("parser error")]
-    ParserError(#[from] nom::Err<nom::error::Error<Vec<u8>>>),
+    ParserError(#[from] nom::Err<(Vec<u8>, nom::error::ErrorKind)>),
 
     #[error("invalide version: {0}")]
     InvalidVersion(String),
 }
+
+// impl<'a> Into<RmkFormatError> for nom::Err<(&'a [u8], nom::error::ErrorKind)> {
+//     fn into(self) -> RmkFormatError {
+//         RmkFormatError::ParserError(self.map(|(ie, k)| (ie.to_vec(), k)))
+//     }
+// }

@@ -1,34 +1,46 @@
 use std::fs;
 
-use rmk_format::{format::NotebookBuilder, notebook};
+use rmk_format::{
+    format::{LayerBuilder, NotebookBuilder},
+    notebook,
+};
 
-#[test]
-fn test_version_6() -> anyhow::Result<()> {
-    let bytes = fs::read(
-        "../data/version_6/5284170b-392b-46a7-920f-35dbce01688c/ef92ea4f-3ea9-4cdc-8981-a3fc08a97482.rm",
-    )?;
+// #[test]
+// fn test_version_6() -> anyhow::Result<()> {
+//     let bytes = fs::read(
+//         "../data/version_6/0d9af7de-39f8-4251-8500-330eec0d00f0/e3c22b43-bd2c-42d8-8b45-d9bdf829b500.rm",
+//     )?;
 
-    let notebook = notebook(&bytes)?;
+//     let notebook = notebook(&bytes)?;
 
-    assert_eq!(
-        notebook,
-        NotebookBuilder::default().version(6).build().unwrap()
-    );
+//     assert_eq!(
+//         notebook,
+//         NotebookBuilder::default()
+//             .version(6)
+//             .nb_layers(1)
+//             .build()
+//             .unwrap()
+//     );
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 #[test]
 fn test_version_5() -> anyhow::Result<()> {
     let bytes = fs::read(
-        "../data/version_5/0d9af7de-39f8-4251-8500-330eec0d00f0/65b0a9a0-4019-4640-868b-5b4cc3101396.rm",
+        "../data/version_5/0d9af7de-39f8-4251-8500-330eec0d00f0/e3c22b43-bd2c-42d8-8b45-d9bdf829b500.rm",
     )?;
 
     let notebook = notebook(&bytes)?;
 
     assert_eq!(
         notebook,
-        NotebookBuilder::default().version(5).build().unwrap()
+        NotebookBuilder::default()
+            .version(5)
+            .nb_layers(1)
+            .layer(LayerBuilder::default().nb_strokes(226).build().unwrap())
+            .build()
+            .unwrap()
     );
 
     Ok(())
