@@ -33,7 +33,7 @@ pub struct Stroke {
     color: u32,
 
     #[builder(default)]
-    base_brush_size: f32,
+    brush_size: f32,
 
     #[builder(default)]
     nb_points: u32,

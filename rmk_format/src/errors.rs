@@ -1,4 +1,6 @@
-use crate::format::{LayerBuilderError, NotebookBuilderError};
+use crate::format::{
+    LayerBuilderError, NotebookBuilderError, PointBuilderError, StrokeBuilderError,
+};
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -11,6 +13,12 @@ pub enum RmkFormatError {
 
     #[error("layer build error")]
     LayerBuildError(#[from] LayerBuilderError),
+
+    #[error("stoke build error")]
+    StrokeBuildError(#[from] StrokeBuilderError),
+
+    #[error("point build error")]
+    PointBuildError(#[from] PointBuilderError),
 
     #[error("parser error")]
     ParserError(#[from] nom::Err<(Vec<u8>, nom::error::ErrorKind)>),
