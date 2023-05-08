@@ -8,3 +8,7 @@ anyhow = "1"
 dioxus = "0.3"
 dioxus-web = "0.3"
 kurbo = "0.9.4"
+log = "0.4"
+reqwest = "0.11"
+rmk_format = { version = "*", path = "../rmk_format" }
+wasm-logger = "0.2"

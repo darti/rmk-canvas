@@ -2,19 +2,16 @@ use derive_builder::Builder;
 
 #[derive(Builder, Debug, PartialEq)]
 pub struct Notebook {
-    version: usize,
-    nb_layers: u32,
+    pub version: usize,
+
     #[builder(default, setter(each(name = "layer")))]
-    layers: Vec<Layer>,
+    pub layers: Vec<Layer>,
 }
 
 #[derive(Builder, Debug, PartialEq, Clone)]
 pub struct Layer {
-    #[builder(default)]
-    nb_strokes: u32,
-
     #[builder(default, setter(each(name = "stroke")))]
-    strokes: Vec<Stroke>,
+    pub strokes: Vec<Stroke>,
 }
 
 //Now a line has the following attributes: 4
@@ -27,38 +24,47 @@ pub struct Layer {
 #[derive(Builder, Debug, PartialEq, Clone)]
 pub struct Stroke {
     #[builder(default)]
-    brush: u32,
+    pub brush: u32,
 
     #[builder(default)]
-    color: u32,
+    pub color: u32,
 
     #[builder(default)]
-    brush_size: f32,
-
-    #[builder(default)]
-    nb_points: u32,
+    pub brush_size: f32,
 
     #[builder(default, setter(each(name = "point")))]
-    points: Vec<Point>,
+    pub points: Vec<Point>,
 }
 
 #[derive(Builder, Debug, PartialEq, Clone)]
 pub struct Point {
     #[builder(default)]
-    x: f32,
+    pub x: f32,
 
     #[builder(default)]
-    y: f32,
+    pub y: f32,
 
     #[builder(default)]
-    speed: f32,
+    pub speed: f32,
 
     #[builder(default)]
-    tilt: f32,
+    pub tilt: f32,
 
     #[builder(default)]
-    width: f32,
+    pub width: f32,
 
     #[builder(default)]
-    pressure: f32,
+    pub pressure: f32,
+}
+
+impl Into<(f64, f64)> for Point {
+    fn into(self) -> (f64, f64) {
+        (self.x as f64, self.y as f64)
+    }
+}
+
+impl Point {
+    pub fn coords(&self) -> (f64, f64) {
+        (self.x as f64, self.y as f64)
+    }
 }

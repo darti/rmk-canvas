@@ -37,8 +37,7 @@ fn test_version_5() -> anyhow::Result<()> {
         notebook,
         NotebookBuilder::default()
             .version(5)
-            .nb_layers(1)
-            .layer(LayerBuilder::default().nb_strokes(226).build().unwrap())
+            .layer(LayerBuilder::default().build().unwrap())
             .build()
             .unwrap()
     );

@@ -13,7 +13,7 @@ pub fn parse(i: &[u8]) -> Result<Notebook, RmkFormatError> {
     let (i, nb_layers) = nb_layers(i)?;
 
     let mut nb = NotebookBuilder::default();
-    nb.version(5).nb_layers(nb_layers);
+    nb.version(5);
 
     let mut i = i;
 
@@ -82,7 +82,6 @@ fn parse_layer(i: &[u8]) -> ParseResult<Layer> {
     let (i, nb_strokes) = nb_strokes(i).unwrap();
 
     let mut layer = LayerBuilder::default();
-    layer.nb_strokes(nb_strokes);
 
     let mut i = i;
 
@@ -106,11 +105,7 @@ fn parse_stroke(i: &[u8]) -> ParseResult<Stroke> {
 
     let mut stroke = StrokeBuilder::default();
 
-    stroke
-        .brush(brush)
-        .color(color)
-        .brush_size(brush_size)
-        .nb_points(nb_points);
+    stroke.brush(brush).color(color).brush_size(brush_size);
 
     let mut i = i;
 
