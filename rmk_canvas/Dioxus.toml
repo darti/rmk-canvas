@@ -3,7 +3,7 @@
 # dioxus project name
 name = "Rmk Canvas"
 
-sub_package = "rmk_canvas"
+# sub_package = "rmk_canvas"
 
 # default platfrom
 # you can also use `dioxus serve/build --platform XXX` to use other platform
@@ -25,16 +25,16 @@ title = "Rmk Canvas"
 
 index_on_404 = true
 
-watch_path = ["src"]
+watch_path = ["src", "public"]
 
 # include `assets` in web platform
 [web.resource]
 
 # CSS style file
-style = []
+style = ["styles/daisyui.css", "styles/base.css"]
 
 # Javascript code file
-script = []
+script = ["scripts/tailwind.js"]
 
 [web.resource.dev]
 

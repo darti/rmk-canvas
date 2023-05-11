@@ -420,6 +420,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "dioxus-class"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1ae6a780995ce2bc93ae002a0a2d6c1ffecc5eb50c3e53d2d6e6152fddd40972"
+dependencies = [
+ "dioxus",
+ "paste",
+]
+
+[[package]]
 name = "dioxus-core"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -448,6 +458,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "dioxus-daisyui"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7b04c6ee16ebdee99f8724bc00c9a73da5d8ca40ed11df2202addb61359be6c3"
+dependencies = [
+ "dioxus",
+ "dioxus-tailwindcss",
+ "lazy_static",
 ]
 
 [[package]]
@@ -538,6 +559,16 @@ dependencies = [
  "quote",
  "serde",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "dioxus-tailwindcss"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fb1e9d672fbd446636a8634666a6848fdf9fb1eb5441767d7d99d09f09a7ca60"
+dependencies = [
+ "dioxus",
+ "dioxus-class",
 ]
 
 [[package]]
@@ -1435,6 +1466,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "paste"
+version = "1.0.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f746c4065a8fa3fe23974dd82f15431cc8d40779821001404d10d2e79ca7d79"
+
+[[package]]
 name = "percent-encoding"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1570,8 +1607,10 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "dioxus",
+ "dioxus-daisyui",
  "dioxus-web",
  "kurbo",
+ "lazy_static",
  "log",
  "reqwest",
  "rmk_format",

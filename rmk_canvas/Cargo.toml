@@ -6,8 +6,10 @@ edition = "2021"
 [dependencies]
 anyhow = "1"
 dioxus = "0.3"
+dioxus-daisyui = "0.3"
 dioxus-web = "0.3"
-kurbo = "0.9.4"
+kurbo = "0.9"
+lazy_static = "1.4.0"
 log = "0.4"
 reqwest = "0.11"
 rmk_format = { version = "*", path = "../rmk_format" }
