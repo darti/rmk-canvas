@@ -1,9 +1,10 @@
 use dioxus::prelude::*;
 use dioxus_daisyui::prelude::*;
-use rmk_canvas::components::Notebook;
-use rmk_format::{notebook, CANVAS_HEIGHT, CANVAS_WIDTH};
+use rmk_canvas::components::{Notebook, Viewer};
+use rmk_format::notebook;
 
 fn main() {
+    console_error_panic_hook::set_once();
     wasm_logger::init(wasm_logger::Config::default());
 
     dioxus_web::launch(App);
@@ -22,7 +23,15 @@ fn App(cx: Scope) -> Element {
 
     cx.render(match notebook.value() {
         Some(Ok(Ok(nb))) => rsx!(div {
-            class: class!(bg_base_200 w_screen h_screen),
+            class: class!(bg_base_200 w_screen h_screen flex justify_center),
+
+            Viewer {
+                body: cx.render(rsx!{
+                    Notebook {
+                        notebook: &nb,
+                    }
+                })
+            },
         }),
         Some(Ok(Err(_))) => rsx! { "Error" },
         Some(Err(_)) => rsx! { "Error" },
