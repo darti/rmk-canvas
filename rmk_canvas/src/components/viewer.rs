@@ -1,10 +1,5 @@
-use std::collections::HashMap;
-
 use dioxus::{
-    html::geometry::{
-        euclid::{Point2D, Vector2D},
-        ClientSpace, ElementPoint, ElementSpace,
-    },
+    html::geometry::{euclid::Vector2D, ElementPoint, ElementSpace, PixelsVector, WheelDelta},
     prelude::*,
 };
 use dioxus_daisyui::prelude::*;
@@ -21,8 +16,8 @@ pub struct ViewerProps<'a> {
 pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
     let dragging = use_state(cx, || false);
     let origin = use_state(cx, || ElementPoint::zero());
-    let delta = use_state(cx, || Vector2D::<f64, ElementSpace>::zero());
-    let pointers = use_ref(cx, || HashMap::<i32, PointerData>::new());
+    let translation = use_state(cx, || Vector2D::<f64, ElementSpace>::zero());
+    let mut scale = use_state(cx, || 1.0);
 
     let inherited_class = cx.props.class.clone();
 
@@ -31,14 +26,12 @@ pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
     let mousedown = move |event: Event<MouseData>| {
         dragging.set(true);
         origin.set(event.element_coordinates());
-        // origin.set(event.client_coordinates());
     };
+
     let mousemove = move |event: Event<MouseData>| {
         if *dragging.get() {
-            delta.set(event.element_coordinates() - *origin.get() + delta.get());
+            translation.set(event.element_coordinates() - *origin.get() + translation.get());
             origin.set(event.element_coordinates());
-
-            info!("delta: {:?}", delta);
         }
     };
 
@@ -46,18 +39,16 @@ pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
         dragging.set(false);
     };
 
-    let pointerdown = move |event: Event<PointerData>| {
-        pointers
-            .write()
-            .insert(event.pointer_id, (*event.data).clone());
+    let wheel = move |event: Event<WheelData>| match event.delta() {
+        WheelDelta::Pixels(PixelsVector { y, .. }) => {
+            scale -= y * 1e-3;
+        }
+        _ => {}
     };
-    let pointermove = move |event: Event<PointerData>| {
-        pointers
-            .write()
-            .insert(event.pointer_id, (*event.data).clone());
-    };
-    let pointerup = move |event: Event<PointerData>| {
-        pointers.write().remove(&event.pointer_id);
+
+    let reset = move |_| {
+        translation.set(Vector2D::<f64, ElementSpace>::zero());
+        scale.set(1.0);
     };
 
     cx.render(rsx! {
@@ -67,13 +58,11 @@ pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
                 onmousedown: mousedown,
                 onmousemove: mousemove,
                 onmouseup: mouseup,
+                onwheel: wheel,
 
-                onpointerdown: pointerdown,
-                onpointermove: pointermove,
-                onpointerup: pointerup,
 
                 g {
-                    transform:"translate({delta.x} {delta.y})",
+                    transform:"translate({translation.x} {translation.y}) scale({scale})",
                     class: class!(bg_base_200),
                     view {
                         view_box: "{doc_box}",
@@ -99,32 +88,34 @@ pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
         div {
             class: class!( card shadow_xl w_96 bg_base_100),
             div{
-                class: class!(card_body),
-                h2 {
+               class: class!(card_body),
+               h2 {
                     class: class!(card_title),
                     "Pointer Data",
                 }
 
                 p {
-                    pointers.read().values().map(|p| {
-                            rsx! {
-                                pre {
-                                    format!("{:#?}", p)
-                                }
-                            }
-                    })
+                    class: class!(text_sm),
+                    "Translation: ({translation.x}, {translation.y})"
                 }
+
+                 p {
+                    class: class!(text_sm),
+                    "Zoom: {scale}"
+                }
+
 
                 div {
                     class: class!(card_actions justify_end),
                     button {
                         class: class!(btn btn_primary),
+                        onclick: reset,
                         "Reset"
                     }
 
                 }
-                }
             }
+        }
 
 
     }
