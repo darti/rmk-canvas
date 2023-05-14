@@ -26,6 +26,7 @@ fn App(cx: Scope) -> Element {
             class: class!(bg_base_200 w_screen h_screen flex justify_center),
 
             Viewer {
+                class: class!(grow m_10 drop_shadow_md),
                 body: cx.render(rsx!{
                     Notebook {
                         notebook: &nb,
