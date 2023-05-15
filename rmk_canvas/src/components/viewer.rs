@@ -54,7 +54,6 @@ pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
     cx.render(rsx! {
             svg {
                 class: inherited_class + class!(bg_base_100),
-                // view_box: "{doc_box}",
                 onmousedown: mousedown,
                 onmousemove: mousemove,
                 onmouseup: mouseup,
@@ -69,7 +68,6 @@ pub fn Viewer<'a>(cx: Scope<'a, ViewerProps<'a>>) -> Element {
                     },
 
                     rect {
-                        // class: class!(fill_base_100),
                         fill: "none",
                         stroke: "black",
                         x: 0,

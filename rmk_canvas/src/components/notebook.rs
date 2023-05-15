@@ -1,6 +1,9 @@
 use dioxus::prelude::*;
 use kurbo::BezPath;
+use log::info;
 use rmk_format::format::{Layer, Notebook, Stroke};
+
+use crate::geometry::ToPath;
 
 #[derive(PartialEq, Props)]
 pub struct NotebookProps<'a> {
@@ -59,16 +62,7 @@ pub fn Stroke<'a>(cx: Scope<'a, StrokeProps<'a>>) -> Element {
     let mut pts1 = cx.props.stroke.points.iter();
     let selected = use_state(cx, || false);
 
-    if let Some(origin) = pts1.next() {
-        let mut path = BezPath::default();
-
-        path.move_to(origin.coords());
-
-        for (p0, p1) in pts0.zip(pts1) {
-            // let kp0 = p0.c
-            path.line_to(p0.coords());
-        }
-
+    if let Some(path) = cx.props.stroke.to_path() {
         cx.render(rsx! {
             path {
                  onmouseenter: move |_| selected.set(true),
